@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hypermarket_user/presentation/bottom_nav_screen/view/bottom_nav_screen.dart';
 import 'package:hypermarket_user/presentation/splash_screen/splash_screen.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: BottomNavScreen(),
     );
   }
 }
