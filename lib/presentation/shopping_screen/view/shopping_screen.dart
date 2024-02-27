@@ -1,25 +1,75 @@
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/material.dart';
-import 'package:hypermarket_user/core/database/db_data.dart';
 
-class ShoppingScreen extends StatelessWidget {
+import 'package:hypermarket_user/core/constants/color.dart';
+import 'package:hypermarket_user/core/database/db_data.dart';
+import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/custom_items_card.dart';
+
+import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/popular_items_widgets.dart';
+
+class ShoppingScreen extends StatefulWidget {
   const ShoppingScreen({super.key});
 
+  @override
+  State<ShoppingScreen> createState() => _ShoppingScreenState();
+}
+
+class _ShoppingScreenState extends State<ShoppingScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   padding: EdgeInsets.symmetric(vertical: 20),
-          //   color: ColorConstant.primaryGreen,
-          //   child: Column(
-          //     children: [
-
-          //     ],
-          //   ),
-          // ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            color: ColorConstant.primaryGreen,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 60,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hi Buddy!",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Text(
+                          "Welcome Back",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 30,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                    CircleAvatar(
+                      radius: 25,
+                      child: Icon(Icons.shopping_cart),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                // Text(
+                //   "Current Location :  ${_locationMessage}",
+                //   style: TextStyle(color: Color.fromARGB(255, 190, 214, 11)),
+                // ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
           CarouselSlider(
             items: [
               Image.asset("assets/2.png"),
@@ -32,80 +82,67 @@ class ShoppingScreen extends StatelessWidget {
                 viewportFraction: 1,
                 enlargeCenterPage: true),
           ),
-          // Container(
-          //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //   height: 60,
-          //   child: ListView.separated(
-          //       scrollDirection: Axis.horizontal,
-          //       itemBuilder: (context, index) =>
-          //           Text(DbData.myItems[index]["category"]),
-          //       separatorBuilder: (context, index) => SizedBox(
-          //             width: 10,
-          //           ),
-          //       itemCount: DbData.myItems.length),
-          // ),
-          SizedBox(height: 15),
-          Text(
-            "You might need",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          SizedBox(
+            height: 15,
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: DbData.myItems.length,
-            itemBuilder: (context, index) => CustomProductCard(
-              myindex: index,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class CustomProductCard extends StatelessWidget {
-  final int myindex;
-  const CustomProductCard({
-    super.key,
-    required this.myindex,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: DbData.myItems.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-          mainAxisExtent: 170),
-      itemBuilder: (context, index) => Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), border: Border.all()),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: Container(
-                height: 100,
-                width: double.infinity,
-                child: Image.network(
-                  DbData.myItems[myindex]["items"][index]["image"],
-                  fit: BoxFit.cover,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "All your favorate",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-              ),
+              ],
             ),
-            Text(DbData.myItems[myindex]["items"][index]["name"]),
-            Text(
-              "Price :${DbData.myItems[myindex]["items"][index]["price"]}",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            height: 120,
+            child: Center(
+              child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => PopularItemcard(
+                        index: index,
+                      ),
+                  separatorBuilder: (context, index) => SizedBox(
+                        width: 10,
+                      ),
+                  itemCount: 3),
+            ),
+          ),
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "You might need",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  ],
+                ),
+                ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: DbData.myItems.length,
+                  itemBuilder: (context, index) => CustomProductCard(
+                    myindex: index,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

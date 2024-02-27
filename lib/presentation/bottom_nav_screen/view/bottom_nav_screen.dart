@@ -13,12 +13,17 @@ class BottomNavScreen extends StatefulWidget {
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int seletedIndex = 0;
-  List<Widget> _screens = [ShoppingScreen(), ScannerScreen(), ProfileScreen()];
+  List<Widget> _screens = [
+    ShoppingScreen(),
+    ScannerScreen(),
+    ProfileScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[seletedIndex],
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           onTap: (value) {
             seletedIndex = value;
             setState(() {});
@@ -26,8 +31,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           currentIndex: seletedIndex,
           selectedItemColor: ColorConstant.primaryGreen,
           items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart), label: "Shopping"),
+            BottomNavigationBarItem(icon: Icon(Icons.store), label: "Shopping"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.qr_code_scanner), label: "Scan"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
