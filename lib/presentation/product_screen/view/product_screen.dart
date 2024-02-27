@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
+import 'package:hypermarket_user/core/database/db_data.dart';
+import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
+import 'package:hypermarket_user/presentation/product_screen/view/widgets/custom_product_card.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
@@ -21,14 +24,19 @@ class ProductScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 20,
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: CircleAvatar(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 20,
+                        ),
                       ),
                     ),
                     Text(
-                      "Product Details",
+                      "Product List",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -54,6 +62,36 @@ class ProductScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50),
+
+                child: GridView.builder(
+                    itemCount: DbData.myItems.length,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10),
+                    itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailsScreen(),
+                              ));
+                        },
+                        child: CustomItemCard())),
+                // child: Column(
+                //   children: [
+                //     CustomMovieCards(
+                //       height: 200,
+                //       width: 200,
+                //       title: "Preview",
+                //       imagesList: DbData.movieImageUrls1,
+                //     ),
+                //   ],
+                // )
+              ),
             ),
           ],
         ),
