@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/core/database/db_data.dart';
+import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
 import 'package:hypermarket_user/presentation/product_screen/view/widgets/custom_product_card.dart';
 
@@ -42,10 +43,20 @@ class ProductScreen extends StatelessWidget {
                           fontSize: 18,
                           color: Colors.white),
                     ),
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.shopping_cart,
-                        size: 20,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartScreen(),
+                          ),
+                        );
+                      },
+                      child: CircleAvatar(
+                        child: Icon(
+                          Icons.shopping_cart,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:hypermarket_user/core/constants/color.dart';
-import 'package:hypermarket_user/core/database/db_data.dart';
+import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key});
@@ -42,10 +42,20 @@ class ProductDetailsScreen extends StatelessWidget {
                           fontSize: 18,
                           color: Colors.white),
                     ),
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.shopping_cart,
-                        size: 20,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartScreen(),
+                          ),
+                        );
+                      },
+                      child: CircleAvatar(
+                        child: Icon(
+                          Icons.shopping_cart,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
@@ -170,10 +180,20 @@ class ProductDetailsScreen extends StatelessWidget {
                             width: 15,
                           ),
                           Expanded(
-                            child: Container(
-                              color: Colors.amber,
-                              child: Center(
-                                child: Text("Add to Cart"),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CartScreen(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                color: Colors.amber,
+                                child: Center(
+                                  child: Text("Add to Cart"),
+                                ),
                               ),
                             ),
                           ),

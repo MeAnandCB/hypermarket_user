@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/core/database/db_data.dart';
+import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
 import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/custom_items_card.dart';
 
 import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/popular_items_widgets.dart';
@@ -51,9 +52,19 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                         )
                       ],
                     ),
-                    CircleAvatar(
-                      radius: 25,
-                      child: Icon(Icons.shopping_cart),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartScreen(),
+                          ),
+                        );
+                      },
+                      child: CircleAvatar(
+                        radius: 25,
+                        child: Icon(Icons.shopping_cart),
+                      ),
                     )
                   ],
                 ),

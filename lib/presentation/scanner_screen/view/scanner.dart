@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
-import 'package:hypermarket_user/presentation/registration__screen/view/registration_screen.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -73,39 +71,36 @@ class _ScannerScreenState extends State<ScannerScreen> {
           filter: ImageFilter.blur(sigmaX: 1, sigmaY: 2),
           child: Container(
             // color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Scan your Code",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: ColorConstant.mainBlack),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: Container(
-                    height: 300,
-                    width: MediaQuery.sizeOf(context).width * .90,
-                    child: QRView(
-                      key: qrKey,
-                      onQRViewCreated: _onQRViewCreated,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                if (isLoading)
-                  Center(
+            child: isLoading
+                ? Center(
                     child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Scan your Code",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: ColorConstant.mainBlack),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Container(
+                          height: 300,
+                          width: MediaQuery.sizeOf(context).width * .90,
+                          child: QRView(
+                            key: qrKey,
+                            onQRViewCreated: _onQRViewCreated,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-              ],
-            ),
           ),
         ));
   }
