@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
+import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ProductDetailsScreenController>(context);
+
     return Scaffold(
       backgroundColor: ColorConstant.primaryGreen,
       body: SingleChildScrollView(
@@ -149,9 +153,20 @@ class ProductDetailsScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    child: Center(
-                                      child: Icon(Icons.remove),
+                                  child: InkWell(
+                                    onTap: () {
+                                      provider.value > 1
+                                          ? Provider.of<
+                                                      ProductDetailsScreenController>(
+                                                  context,
+                                                  listen: false)
+                                              .quandityRemove()
+                                          : provider.value;
+                                    },
+                                    child: Container(
+                                      child: Center(
+                                        child: Icon(Icons.remove),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -160,16 +175,25 @@ class ProductDetailsScreen extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Container(
-                                    child: Center(child: Text("1")),
+                                    child: Center(
+                                        child: Text(provider.value.toString())),
                                   ),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Expanded(
-                                  child: Container(
-                                    child: Center(
-                                      child: Icon(Icons.add),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Provider.of<ProductDetailsScreenController>(
+                                              context,
+                                              listen: false)
+                                          .quandityadd();
+                                    },
+                                    child: Container(
+                                      child: Center(
+                                        child: Icon(Icons.add),
+                                      ),
                                     ),
                                   ),
                                 ),

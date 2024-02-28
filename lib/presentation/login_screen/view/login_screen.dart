@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hypermarket_user/app_config/app_config.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/bottom_nav_screen/view/bottom_nav_screen.dart';
 import 'package:hypermarket_user/presentation/registration__screen/view/registration_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,8 +15,31 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  void _login({required formKey}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    String? password = prefs.getString('password');
+    if (formKey.currentState!.validate()) {
+      if (_usernameController.text == username &&
+          _passwordController.text == password) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomNavScreen(),
+            ));
+        print(
+            '################################################### Login Successful!');
+      } else {
+        // Login failed
+        print(
+            '################################################### Login Failed!');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(AppConfig.USER_NAME);
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Screen'),
@@ -36,20 +61,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 20),
                 _buildTextField(
-                  controller: _passwordController,
-                  hintText: 'Password',
-                  isPassword: true,
-                ),
+                    controller: _passwordController,
+                    hintText: 'Password',
+                    isPassword: true,
+                    eye: true),
                 SizedBox(height: 30),
                 InkWell(
                   onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BottomNavScreen(),
-                          ));
-                    }
+                    return _login(formKey: _formKey);
                   },
                   child: Container(
                     padding:
@@ -99,15 +118,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    bool isPassword = false,
-  }) {
+  Widget _buildTextField(
+      {required TextEditingController controller,
+      required String hintText,
+      bool isPassword = false,
+      bool eye = false}) {
     return TextFormField(
       controller: controller,
       obscureText: isPassword,
       decoration: InputDecoration(
+        suffixIcon: eye == true ? Icon(Icons.remove_red_eye) : null,
         contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
         border: OutlineInputBorder(),
         hintText: hintText,

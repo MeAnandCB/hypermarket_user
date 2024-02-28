@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:hypermarket_user/app_config/app_config.dart';
+
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/login_screen/view/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -16,6 +18,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  void _register() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', _nameController.text);
+    await prefs.setString('password', _passwordController.text);
+    // You can add more data to store if needed
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(),
+      ),
+    );
+  }
 
   String _gender = 'Male';
 
@@ -95,12 +110,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     InkWell(
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
+                          _register();
                         }
                       },
                       child: Container(

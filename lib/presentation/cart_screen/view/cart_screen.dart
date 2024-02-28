@@ -1,14 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:hypermarket_user/core/constants/color.dart';
-import 'package:hypermarket_user/core/database/db_data.dart';
+import 'package:hypermarket_user/presentation/cart_screen/controller/cart_screen_controller.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartScreenController>(context);
     return Scaffold(
       backgroundColor: ColorConstant.primaryGreen,
       body: SingleChildScrollView(
@@ -126,19 +127,33 @@ class CartScreen extends StatelessWidget {
                                         Expanded(
                                           child: Center(
                                             child: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  cartProvider.cartValue > 1
+                                                      ? Provider.of<
+                                                                  CartScreenController>(
+                                                              context,
+                                                              listen: false)
+                                                          .quandityRemove()
+                                                      : cartProvider.cartValue;
+                                                },
                                                 icon: Icon(Icons.remove)),
                                           ),
                                         ),
                                         Expanded(
                                           child: Center(
-                                            child: Text("1"),
+                                            child: Text(cartProvider.cartValue
+                                                .toString()),
                                           ),
                                         ),
                                         Expanded(
                                           child: Center(
                                             child: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Provider.of<CartScreenController>(
+                                                          context,
+                                                          listen: false)
+                                                      .quandityadd();
+                                                },
                                                 icon: Icon(Icons.add)),
                                           ),
                                         ),
