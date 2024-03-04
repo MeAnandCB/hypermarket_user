@@ -88,11 +88,16 @@ class AppUtils {
   ///used this for luminar
   static Future<String?> getAccessKey() async {
     final sharedPreferences = await SharedPreferences.getInstance();
+    print("hai");
+
     if (sharedPreferences.get(AppConfig.LOGIN_DATA) != null) {
+      print("hai1");
       final access = jsonDecode(
           sharedPreferences.get(AppConfig.LOGIN_DATA) as String)['access'];
+      print("hai2");
       return access;
     } else {
+      print("hai3");
       return null;
     }
   }

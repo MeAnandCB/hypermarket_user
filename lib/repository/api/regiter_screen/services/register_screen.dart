@@ -6,9 +6,7 @@ class RegistrationScreenServides {
       {required Map<String, dynamic> body}) async {
     try {
       final APIResponse response = await ApiHelper.postData(
-          body: body,
-          endPoint: "/user/register/",
-          header: ApiHelper.getApiHeader());
+          body: body, endPoint: "/register/", header: ApiHelper.getApiHeader());
       if (response.error) {
         return response;
       } else {

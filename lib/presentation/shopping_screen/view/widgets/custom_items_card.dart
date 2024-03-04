@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/database/db_data.dart';
-import 'package:hypermarket_user/presentation/product_screen/view/product_screen.dart';
+import 'package:hypermarket_user/presentation/product_screen/view/product_List_screen.dart';
 
 class CustomProductCard extends StatelessWidget {
   final int myindex;
@@ -26,7 +26,7 @@ class CustomProductCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ProductScreen(),
+              builder: (context) => ProductListScreen(),
             ),
           );
         },

@@ -1,12 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/core/database/db_data.dart';
 import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
 import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/custom_items_card.dart';
-
 import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/popular_items_widgets.dart';
 
 class ShoppingScreen extends StatefulWidget {
@@ -75,6 +72,25 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                 //   "Current Location :  ${_locationMessage}",
                 //   style: TextStyle(color: Color.fromARGB(255, 190, 214, 11)),
                 // ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Search...",
+                      ),
+                      Icon(Icons.search)
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),

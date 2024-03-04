@@ -40,7 +40,7 @@ class ApiHelper {
           var resBody = json.decode(utf8.decode(res.bodyBytes));
 
           print(resBody);
-          if (resBody['status'] == 1) {
+          if (res.statusCode == 200) {
             if (resBody['message'] != null) {
               AppUtils.oneTimeSnackBar(
                 resBody['message'] ?? "Success",
@@ -105,7 +105,7 @@ class ApiHelper {
           var resBody = json.decode(utf8.decode(res.bodyBytes));
           print('post resBody');
           print(resBody);
-          if (resBody['status'] == 1) {
+          if (res.statusCode == 200) {
             if (resBody['message'] != null) {
               AppUtils.oneTimeSnackBar(
                 resBody['message'] ?? "Success",
@@ -174,7 +174,7 @@ class ApiHelper {
           var resBody = json.decode(utf8.decode(res.bodyBytes));
           print('post resBody');
           print(resBody);
-          if (resBody['status'] == 1) {
+          if (res.statusCode == 200) {
             if (resBody['message'] != null) {
               AppUtils.oneTimeSnackBar(
                 resBody['message'] ?? "Success",
@@ -237,7 +237,7 @@ class ApiHelper {
           var resBody = json.decode(utf8.decode(res.bodyBytes));
           print('post resBody');
           print(resBody);
-          if (resBody['status'] == 1) {
+          if (res.statusCode == 200) {
             if (resBody['message'] != null) {
               AppUtils.oneTimeSnackBar(
                 resBody['message'] ?? "Success",
@@ -278,105 +278,9 @@ class ApiHelper {
     }
   }
 
-//   static Future<dynamic> get(String endpoint) async {
-//     final response = await http.get(Uri.parse('$baseUrl/$endpoint'));
-//     return _handleResponse(response);
-//   }
-
-// //
-// //
-// //
-// //
-// //
-//   static Future<dynamic> post(String endpoint, dynamic data) async {
-//     final response = await http.post(
-//       Uri.parse('$baseUrl/$endpoint'),
-//       body: jsonEncode(data),
-//       headers: {'Content-Type': 'application/json'},
-//     );
-//     return _handleResponse(response);
-//   }
-
-// //
-// //
-// //
-// //
-// //
-//   static Future<dynamic> patch(String endpoint, dynamic data) async {
-//     final response = await http.patch(
-//       Uri.parse('$baseUrl/$endpoint'),
-//       body: jsonEncode(data),
-//       headers: {'Content-Type': 'application/json'},
-//     );
-//     return _handleResponse(response);
-//   }
-
-// //
-// //
-// //
-// //
-// //
-//   static Future<dynamic> put(String endpoint, dynamic data) async {
-//     final response = await http.put(
-//       Uri.parse('$baseUrl/$endpoint'),
-//       body: jsonEncode(data),
-//       headers: {'Content-Type': 'application/json'},
-//     );
-//     return _handleResponse(response);
-//   }
-
-// //
-// //
-// //
-// //
-// //
-//   static Future<dynamic> delete(String endpoint) async {
-//     final response = await http.delete(Uri.parse('$baseUrl/$endpoint'));
-//     return _handleResponse(response);
-//   }
-
-//
-//
-
   static bool isRequestSucceeded(int statusCode) {
     AppUtils().printData(statusCode, info: "statusCode");
-    if (statusCode == 401) {
-      // AppUtils.oneTimeSnackBar("Login session Expired! , Login again to continue.",bgColor: Colors.red,time: 3);
-      // Routes.router.navigator!.context.replace('/LoginScreen');
-      // Get.toNamed("/LogInScreen");
-      // checkTokenValidity();
-      // Routes.router.routerDelegate.navigatorKey.currentState!.context
-      //     .go("/SignInScreen");
-      // AppUtils.oneTimeSnackBar(
-      //     "Session Expired ! , Please re-login to continue",
-      //     bgColor: Colors.red,
-      //     time: 3);
-    }
 
-    ///if 402 ie. subscription expired
-    if (statusCode == 402) {
-      // Routes.router.routerDelegate.navigatorKey.currentState!.context
-      //     .go("/SubscriptionRequiredScreen");
-      // AppUtils.oneTimeSnackBar("Subscription Expired !",
-      //     bgColor: Colors.red, time: 3);
-    }
-
-    ///todo : need to handle in other way
-    // return statusCode >= 200 && statusCode < 401||statusCode==500;
     return statusCode >= 200 && statusCode <= 404 || statusCode == 500;
   }
-//
-//
-//
-
-  // static dynamic _handleResponse(http.Response response) {
-  //   if (response.statusCode >= 200 && response.statusCode < 300) {
-  //     // Success
-  //     return jsonDecode(response.body);
-  //   } else {
-  //     // Error
-
-  //     throw Exception('API request failed with status ${response.statusCode}');
-  //   }
-  // }
 }

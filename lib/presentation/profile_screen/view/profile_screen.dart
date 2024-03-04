@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
+import 'package:hypermarket_user/global_widgets/alert_popup.dart';
 import 'package:hypermarket_user/presentation/login_screen/view/login_screen.dart';
+import 'package:hypermarket_user/repository/helper/helper_fincitons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -229,7 +231,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 15,
               ),
               InkWell(
-                onTap: _logout,
+                onTap: () {
+                  showDialog(
+                    //the return value will be from "Yes" or "No" options
+                    context: context,
+                    builder: (context) => CustomAlertPopup(
+                        title: 'Do you want to LogOut?',
+                        onyesPressed: () {
+                          HelperFunctions.logOut(context);
+
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => GetStartedScreen(),
+                          //   ),
+                          // );
+                        }),
+                  );
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(

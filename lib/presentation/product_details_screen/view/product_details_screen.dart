@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
+import 'package:hypermarket_user/presentation/payment_screen/view/payment_screen.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +75,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 color: Colors.white,
               ),
               alignment: Alignment.bottomCenter,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * .90,
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -231,11 +232,19 @@ class ProductDetailsScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Container(
-              height: 60,
-              color: Colors.amber,
-              child: Center(
-                child: Text("Buy Now"),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PaymentPage()),
+                );
+              },
+              child: Container(
+                height: 60,
+                color: Colors.amber,
+                child: Center(
+                  child: Text("Buy Now"),
+                ),
               ),
             ),
             SizedBox(

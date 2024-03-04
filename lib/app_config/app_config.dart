@@ -1,7 +1,6 @@
 class AppConfig {
   //dev urls
-  static String devUrl = 'https://studyappmw.dev.luminartechnohub.com/api/v1';
-  // static String mediadevUrl = 'https://studyappmw.dev.luminartechnohub.com';
+  static String devUrl = 'http://10.0.2.2:8000';
 
   // Final urls
   static String baseUrl = devUrl;

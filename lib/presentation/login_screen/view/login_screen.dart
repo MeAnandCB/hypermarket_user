@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/app_config/app_config.dart';
+import 'package:hypermarket_user/core/app_utils/app_utils.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/bottom_nav_screen/view/bottom_nav_screen.dart';
+import 'package:hypermarket_user/presentation/login_screen/controller/login_controller.dart';
 import 'package:hypermarket_user/presentation/registration__screen/view/registration_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,28 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  void _login({required formKey}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    String? password = prefs.getString('password');
-    if (formKey.currentState!.validate()) {
-      if (_usernameController.text == username &&
-          _passwordController.text == password) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BottomNavScreen(),
-            ));
-        print(
-            '################################################### Login Successful!');
-      } else {
-        // Login failed
-        print(
-            '################################################### Login Failed!');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +47,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     eye: true),
                 SizedBox(height: 30),
                 InkWell(
-                  onTap: () {
-                    return _login(formKey: _formKey);
+                  onTap: () async {
+                    if (_usernameController.text.isNotEmpty &&
+                        _passwordController.text.isNotEmpty) {
+                      await Provider.of<LoginScreenController>(context,
+                              listen: false)
+                          .onLogin(
+                              userName: _usernameController.text.trim(),
+                              password: _passwordController.text.trim())
+                          .then((value) async {
+                        print("login value $value");
+                        if (value) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BottomNavScreen(),
+                              ),
+                              (route) => false);
+                        } else {
+                          AppUtils.oneTimeSnackBar(
+                              bgColor: Colors.red,
+                              "Enter a vaild user and pass",
+                              context: context);
+                        }
+                        _usernameController.clear();
+                        _passwordController.clear();
+                      });
+                    } else {
+                      AppUtils.oneTimeSnackBar(
+                          bgColor: Colors.red,
+                          "Enter valid user name or password",
+                          context: context);
+                    }
                   },
                   child: Container(
                     padding:
@@ -97,16 +107,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 1.5),
                       ),
                       TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegistrationScreen(),
-                                ));
-                          },
-                          child: Text(
-                            "Log In",
-                          ))
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegistrationScreen(),
+                              ));
+                        },
+                        child: Text(
+                          "Register",
+                        ),
+                      )
                     ],
                   ),
                 ),

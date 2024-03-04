@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hypermarket_user/app_config/app_config.dart';
 
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/login_screen/view/login_screen.dart';
+import 'package:hypermarket_user/presentation/registration__screen/controller/register_screen_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -20,16 +21,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       TextEditingController();
 
   void _register() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _nameController.text);
-    await prefs.setString('password', _passwordController.text);
-    // You can add more data to store if needed
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginScreen(),
-      ),
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setString('username', _nameController.text);
+    // await prefs.setString('password', _passwordController.text);
+    // print(
+    //     "8888888888888888888888888888888888888a${prefs.getString('username')}");
+
+    await Provider.of<RegistrationScreenController>(context, listen: false)
+        .onRegister(
+      name: _nameController.text.trim(),
+      password: _passwordController.text.trim(),
+      email: _emailController.text.trim(),
     );
+    // You can add more data to store if needed
+    Provider.of<RegistrationScreenController>(context, listen: false)
+            .isPostLoading
+        ? CircularProgressIndicator()
+        : Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+          );
   }
 
   String _gender = 'Male';
