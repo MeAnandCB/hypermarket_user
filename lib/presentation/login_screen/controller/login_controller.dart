@@ -16,7 +16,7 @@ class LoginScreenController extends ChangeNotifier {
   // to Fetch the Course demo videos
 
   Future<bool> onLogin(
-      {required String userName, required String password}) async {
+      {required String phone, required String password}) async {
     sharedPreferences = await SharedPreferences.getInstance();
     isLoading = true;
     notifyListeners();
@@ -24,7 +24,7 @@ class LoginScreenController extends ChangeNotifier {
     try {
       // need to update values from  user input
       final fetchedData = await LoginScreenServides().onLogin(body: {
-        "username": userName,
+        "phone": phone,
         "password": password,
       });
 
@@ -34,9 +34,10 @@ class LoginScreenController extends ChangeNotifier {
 
         if (loginData != null) {
           Map<String, dynamic> sharedData = {
-            'access': loginData!.access,
-            "refresh": loginData!.refresh,
-            "name": loginData!.username,
+            'access': loginData!.data!.token!.access,
+            "refreshAccess": loginData!.data!.token!.refresh,
+            "refresh": loginData!.data!.token!.refresh,
+            "user": loginData!.data!.user!.fullName
           };
 
           ///setting shared pref

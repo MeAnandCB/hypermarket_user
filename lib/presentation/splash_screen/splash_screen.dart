@@ -28,14 +28,15 @@ class _SplashScreenState extends State<SplashScreen> {
       if (value != null && value.isNotEmpty) {
         print(value);
         print("hello2");
-
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BottomNavScreen(),
-          ),
-          (route) => false,
-        );
+        Future.delayed(Duration(seconds: 3)).then((value) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomNavScreen(),
+            ),
+            (route) => false,
+          );
+        });
       } else {
         // User is not registered, navigate to registration screen after 3 seconds
         Future.delayed(Duration(seconds: 3)).then((value) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/profile_screen/view/profile_screen.dart';
 import 'package:hypermarket_user/presentation/scanner_screen/view/scanner.dart';
-import 'package:hypermarket_user/presentation/shopping_screen/view/shopping_screen.dart';
+import 'package:hypermarket_user/presentation/category_screen/view/category_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -14,7 +14,7 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int seletedIndex = 0;
   List<Widget> _screens = [
-    ShoppingScreen(),
+    CategoryScreen(),
     ScannerScreen(),
     ProfileScreen(),
   ];

@@ -4,7 +4,6 @@ import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/login_screen/view/login_screen.dart';
 import 'package:hypermarket_user/presentation/registration__screen/controller/register_screen_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -17,6 +16,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
@@ -29,9 +30,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     await Provider.of<RegistrationScreenController>(context, listen: false)
         .onRegister(
-      name: _nameController.text.trim(),
-      password: _passwordController.text.trim(),
       email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+      name: _nameController.text.trim(),
+      phone: _numberController.text.trim(),
+      dob: _dobController.text.trim(),
+      gender: _gender,
     );
     // You can add more data to store if needed
     Provider.of<RegistrationScreenController>(context, listen: false)
@@ -84,6 +88,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     _buildTextField(
                       controller: _emailController,
                       hintText: 'Enter your email',
+                    ),
+                    SizedBox(height: 10),
+                    _buildTextField(
+                      controller: _dobController,
+                      hintText: 'DOB',
                     ),
                     SizedBox(height: 10),
                     DropdownButtonFormField(

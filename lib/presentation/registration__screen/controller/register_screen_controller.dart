@@ -7,7 +7,12 @@ class RegistrationScreenController extends ChangeNotifier {
   bool isPostLoading = false;
   late SharedPreferences sharedPreferences;
   Future<bool> onRegister(
-      {required String password, required String name, String? email}) async {
+      {required String password,
+      required String name,
+      String? email,
+      required String dob,
+      required String gender,
+      required String phone}) async {
     sharedPreferences = await SharedPreferences.getInstance();
     isPostLoading = true;
     notifyListeners();
@@ -15,9 +20,11 @@ class RegistrationScreenController extends ChangeNotifier {
       // need to update values from  user input
       final fetchedData =
           await RegistrationScreenServides().onRegistration(body: {
-        "username": name,
+        "full_name": name,
         "password": password,
-        "email": email,
+        "phone": phone,
+        "dob": dob,
+        "gender": gender
       });
       if (fetchedData.error != true) {
         isPostLoading = false;

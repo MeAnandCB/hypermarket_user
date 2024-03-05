@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/presentation/bottom_nav_screen/view/bottom_nav_screen.dart';
 import 'package:hypermarket_user/presentation/cart_screen/controller/cart_screen_controller.dart';
+import 'package:hypermarket_user/presentation/category_screen/controller/category_screen_controller.dart';
 import 'package:hypermarket_user/presentation/login_screen/controller/login_controller.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
 import 'package:hypermarket_user/presentation/registration__screen/controller/register_screen_controller.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => RegistrationScreenController()),
         ChangeNotifierProvider(create: (context) => LoginScreenController()),
+        ChangeNotifierProvider(
+            create: (context) => RegistrationScreenController()),
+        ChangeNotifierProvider(create: (context) => CategoryScreenController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

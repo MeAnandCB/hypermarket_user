@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       await Provider.of<LoginScreenController>(context,
                               listen: false)
                           .onLogin(
-                              userName: _usernameController.text.trim(),
+                              phone: _usernameController.text.trim(),
                               password: _passwordController.text.trim())
                           .then((value) async {
                         print("login value $value");

@@ -1,21 +1,38 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:hypermarket_user/core/constants/color.dart';
-import 'package:hypermarket_user/core/database/db_data.dart';
-import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
-import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/custom_items_card.dart';
-import 'package:hypermarket_user/presentation/shopping_screen/view/widgets/popular_items_widgets.dart';
+import 'package:hypermarket_user/app_config/app_config.dart';
 
-class ShoppingScreen extends StatefulWidget {
-  const ShoppingScreen({super.key});
+import 'package:hypermarket_user/core/constants/color.dart';
+
+import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
+import 'package:hypermarket_user/presentation/category_screen/controller/category_screen_controller.dart';
+
+import 'package:hypermarket_user/presentation/category_screen/view/widgets/popular_items_widgets.dart';
+import 'package:hypermarket_user/presentation/product_screen/view/product_List_screen.dart';
+import 'package:provider/provider.dart';
+
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({super.key});
 
   @override
-  State<ShoppingScreen> createState() => _ShoppingScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _ShoppingScreenState extends State<ShoppingScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Provider.of<CategoryScreenController>(context, listen: false)
+          .getCategoryList();
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoryScreenController>(context);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,13 +174,68 @@ class _ShoppingScreenState extends State<ShoppingScreen> {
                     ),
                   ],
                 ),
-                ListView.builder(
-                  padding: EdgeInsets.zero,
+                GridView.builder(
+                  padding: EdgeInsets.symmetric(vertical: 10),
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: DbData.myItems.length,
-                  itemBuilder: (context, index) => CustomProductCard(
-                    myindex: index,
+                  itemCount: categoryProvider.categoryScreenList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      mainAxisExtent: 160),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductListScreen(),
+                        ),
+                      );
+                      print(
+                          "${categoryProvider.categoryScreenList[index].name}");
+                    },
+                    child: categoryProvider.isCategoryLoading
+                        ? CircularProgressIndicator()
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey)),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    height: 100,
+                                    width: double.infinity,
+                                    child: categoryProvider
+                                                .categoryScreenList[index]
+                                                .image ==
+                                            null
+                                        ? Image.network(
+                                            AppConfig.baseUrl +
+                                                categoryProvider
+                                                    .categoryScreenList[index]
+                                                    .image!,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            "assets/oni.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                ),
+                                Text(
+                                  categoryProvider
+                                          .categoryScreenList[index].name ??
+                                      "",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
                   ),
                 )
               ],

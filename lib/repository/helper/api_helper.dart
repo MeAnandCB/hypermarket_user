@@ -40,15 +40,17 @@ class ApiHelper {
           var resBody = json.decode(utf8.decode(res.bodyBytes));
 
           print(resBody);
+          print("***************************************ERROR1");
           if (res.statusCode == 200) {
-            if (resBody['message'] != null) {
-              AppUtils.oneTimeSnackBar(
-                resBody['message'] ?? "Success",
-                context: AppConfigController.navigatorState.currentContext!,
-              );
-            }
+            // if (resBody['message'] != null) {
+            //   AppUtils.oneTimeSnackBar(
+            //     resBody['message'] ?? "Success",
+            //     context: AppConfigController.navigatorState.currentContext!,
+            //   );
+            // }
 
             print(resBody);
+            print("***************************************ERROR2");
             return APIResponse(data: resBody, error: false, errorMessage: '');
           } else {
             AppUtils.oneTimeSnackBar(
@@ -56,16 +58,19 @@ class ApiHelper {
               context: AppConfigController.navigatorState.currentContext!,
               bgColor: Colors.red,
             );
+            print("***************************************ERROR3");
             return APIResponse(
                 data: resBody,
                 error: true,
                 errorMessage: resBody['message'] ?? 'Something went wrong!');
           }
         } else {
+          print("***************************************ERROR3");
           return APIResponse(
               data: '', error: true, errorMessage: 'Something went wrong!');
         }
       } catch (e) {
+        print("***************************************ERROR4");
         return APIResponse(
             data: '', error: true, errorMessage: 'Could\'t reach server');
       }
@@ -75,7 +80,7 @@ class ApiHelper {
             bgColor: Colors.red,
             context: AppConfigController.navigatorState.currentContext!);
       }
-
+      print("***************************************ERROR5");
       return APIResponse(
           data: '', error: true, errorMessage: 'Something went wrong!');
     }
