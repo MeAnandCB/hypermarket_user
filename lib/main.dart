@@ -4,6 +4,7 @@ import 'package:hypermarket_user/presentation/cart_screen/controller/cart_screen
 import 'package:hypermarket_user/presentation/category_screen/controller/category_screen_controller.dart';
 import 'package:hypermarket_user/presentation/login_screen/controller/login_controller.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
+import 'package:hypermarket_user/presentation/product_screen/controller/product_screen_controller.dart';
 import 'package:hypermarket_user/presentation/registration__screen/controller/register_screen_controller.dart';
 import 'package:hypermarket_user/presentation/splash_screen/splash_screen.dart';
 
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => RegistrationScreenController()),
         ChangeNotifierProvider(create: (context) => CategoryScreenController()),
+        ChangeNotifierProvider(create: (context) => ProductScreenController()),
+        ChangeNotifierProvider(
+            create: (context) => ProductDetailsScreenController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -42,7 +42,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(),
+            builder: (context) => ProductDetailsScreen(
+              id: "",
+              index: 0,
+            ),
           ),
         );
         isLoading = false;

@@ -102,16 +102,16 @@ class AppUtils {
     }
   }
 
-  ///used this for luminar
-  static Future<String?> getGuestDetails() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString(AppConfig.USER_NAME) != null) {
-      final guestDetails = sharedPreferences.getString(AppConfig.USER_NAME);
-      return guestDetails;
-    } else {
-      return null;
-    }
-  }
+  // ///used this for luminar
+  // static Future<String?> getGuestDetails() async {
+  //   final sharedPreferences = await SharedPreferences.getInstance();
+  //   if (sharedPreferences.getString(AppConfig.USER_NAME) != null) {
+  //     final guestDetails = sharedPreferences.getString(AppConfig.USER_NAME);
+  //     return guestDetails;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   ///user this on every btn / or can be implemented on service before API call
   static Future<bool> isOnline() async {

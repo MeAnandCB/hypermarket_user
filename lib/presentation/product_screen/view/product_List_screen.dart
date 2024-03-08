@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
-import 'package:hypermarket_user/core/database/db_data.dart';
-import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
-import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
-import 'package:hypermarket_user/presentation/product_screen/view/widgets/custom_product_card.dart';
 
-class ProductListScreen extends StatelessWidget {
-  const ProductListScreen({super.key});
+import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
+import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
+import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
+import 'package:hypermarket_user/presentation/product_screen/controller/product_screen_controller.dart';
+import 'package:hypermarket_user/presentation/product_screen/view/widgets/custom_product_card.dart';
+import 'package:provider/provider.dart';
+
+class ProductListScreen extends StatefulWidget {
+  const ProductListScreen({super.key, required this.produtid});
+  final String produtid;
+
+  @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Provider.of<ProductScreenController>(context, listen: false)
+          .getProductList(id: widget.produtid);
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductScreenController>(context);
+
     return Scaffold(
       backgroundColor: ColorConstant.primaryGreen,
       body: Column(
@@ -101,7 +121,7 @@ class ProductListScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 50),
 
                   child: GridView.builder(
-                      itemCount: DbData.myItems[0]['items'].length,
+                      itemCount: productProvider.productListnList.length,
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -109,13 +129,32 @@ class ProductListScreen extends StatelessWidget {
                           crossAxisSpacing: 10),
                       itemBuilder: (context, index) => InkWell(
                           onTap: () {
+                            print(productProvider.productListnList[index].id
+                                .toString());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductDetailsScreen(),
+                                  builder: (context) => ProductDetailsScreen(
+                                    index: index,
+                                    id: productProvider
+                                        .productListnList[index].id
+                                        .toString(),
+                                  ),
                                 ));
                           },
-                          child: CustomItemCard())),
+                          child: productProvider.isProductLoading
+                              ? CircularProgressIndicator()
+                              : CustomItemCard(
+                                  image: productProvider
+                                          .productListnList[index].image ??
+                                      '',
+                                  name: productProvider
+                                          .productListnList[index].name ??
+                                      "",
+                                  price: productProvider
+                                      .productListnList[index].price
+                                      .toString(),
+                                ))),
                   // child: Column(
                   //   children: [
                   //     CustomMovieCards(

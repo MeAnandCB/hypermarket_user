@@ -165,7 +165,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "You might need",
@@ -174,30 +174,39 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ],
                 ),
-                GridView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: categoryProvider.categoryScreenList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      mainAxisExtent: 160),
-                  itemBuilder: (context, index) => InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductListScreen(),
+                categoryProvider.isCategoryLoading
+                    ? Container(
+                        height: 120,
+                        child: Center(
+                          child: CircularProgressIndicator(),
                         ),
-                      );
-                      print(
-                          "${categoryProvider.categoryScreenList[index].name}");
-                    },
-                    child: categoryProvider.isCategoryLoading
-                        ? CircularProgressIndicator()
-                        : Container(
+                      )
+                    : GridView.builder(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: categoryProvider.categoryScreenList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            mainAxisExtent: 160),
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductListScreen(
+                                  produtid: categoryProvider
+                                      .categoryScreenList[index].id
+                                      .toString(),
+                                ),
+                              ),
+                            );
+                            print(
+                                "${categoryProvider.categoryScreenList[index].name}");
+                          },
+                          child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey)),
@@ -207,37 +216,31 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    height: 100,
-                                    width: double.infinity,
-                                    child: categoryProvider
+                                      padding: EdgeInsets.all(10),
+                                      height: 100,
+                                      width: double.infinity,
+                                      child: Image.network(
+                                        AppConfig.mediaUrl +
+                                            categoryProvider
                                                 .categoryScreenList[index]
-                                                .image ==
-                                            null
-                                        ? Image.network(
-                                            AppConfig.baseUrl +
-                                                categoryProvider
-                                                    .categoryScreenList[index]
-                                                    .image!,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            "assets/oni.png",
-                                            fit: BoxFit.cover,
-                                          ),
-                                  ),
+                                                .image!,
+                                        fit: BoxFit.cover,
+                                      )),
                                 ),
-                                Text(
-                                  categoryProvider
-                                          .categoryScreenList[index].name ??
-                                      "",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                Center(
+                                  child: Text(
+                                    categoryProvider
+                                            .categoryScreenList[index].name ??
+                                        "",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                  ),
-                )
+                        ),
+                      )
               ],
             ),
           ),

@@ -39,8 +39,8 @@ class ApiHelper {
         if (isRequestSucceeded(res.statusCode)) {
           var resBody = json.decode(utf8.decode(res.bodyBytes));
 
-          print(resBody);
-          print("***************************************ERROR1");
+          print("***************************************ERROR $resBody");
+
           if (res.statusCode == 200) {
             // if (resBody['message'] != null) {
             //   AppUtils.oneTimeSnackBar(
