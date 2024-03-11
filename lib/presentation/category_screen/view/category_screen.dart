@@ -66,20 +66,20 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         )
                       ],
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CartScreen(),
-                          ),
-                        );
-                      },
-                      child: CircleAvatar(
-                        radius: 25,
-                        child: Icon(Icons.shopping_cart),
-                      ),
-                    )
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => CartScreen(),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: CircleAvatar(
+                    //     radius: 25,
+                    //     child: Icon(Icons.shopping_cart),
+                    //   ),
+                    // )
                   ],
                 ),
                 SizedBox(
@@ -211,6 +211,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey)),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Padding(
@@ -227,14 +228,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                         fit: BoxFit.cover,
                                       )),
                                 ),
-                                Center(
-                                  child: Text(
-                                    categoryProvider
-                                            .categoryScreenList[index].name ??
-                                        "",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  categoryProvider
+                                          .categoryScreenList[index].name ??
+                                      "",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/profile_screen/view/profile_screen.dart';
+import 'package:hypermarket_user/presentation/purchase_history_screen/view/purchase_history_screen.dart';
 import 'package:hypermarket_user/presentation/scanner_screen/view/scanner.dart';
 import 'package:hypermarket_user/presentation/category_screen/view/category_screen.dart';
 
@@ -16,6 +17,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   List<Widget> _screens = [
     CategoryScreen(),
     ScannerScreen(),
+    PurchaseHistoryScreen(),
     ProfileScreen(),
   ];
   @override
@@ -34,6 +36,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             BottomNavigationBarItem(icon: Icon(Icons.store), label: "Shopping"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.qr_code_scanner), label: "Scan"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.history), label: "History"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           ]),
     );

@@ -1,0 +1,121 @@
+// To parse this JSON data, do
+//
+//     final getCartItemsResModel = getCartItemsResModelFromJson(jsonString);
+
+import 'dart:convert';
+
+GetCartItemsResModel getCartItemsResModelFromJson(String str) => GetCartItemsResModel.fromJson(json.decode(str));
+
+String getCartItemsResModelToJson(GetCartItemsResModel data) => json.encode(data.toJson());
+
+class GetCartItemsResModel {
+    int? status;
+    List<Datum>? data;
+
+    GetCartItemsResModel({
+        this.status,
+        this.data,
+    });
+
+    factory GetCartItemsResModel.fromJson(Map<String, dynamic> json) => GetCartItemsResModel(
+        status: json["status"],
+        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "status": status,
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    };
+}
+
+class Datum {
+    int? id;
+    Cart? cart;
+    Product? product;
+
+    Datum({
+        this.id,
+        this.cart,
+        this.product,
+    });
+
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
+        cart: json["cart"] == null ? null : Cart.fromJson(json["cart"]),
+        product: json["product"] == null ? null : Product.fromJson(json["product"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "cart": cart?.toJson(),
+        "product": product?.toJson(),
+    };
+}
+
+class Cart {
+    int? id;
+    String? user;
+
+    Cart({
+        this.id,
+        this.user,
+    });
+
+    factory Cart.fromJson(Map<String, dynamic> json) => Cart(
+        id: json["id"],
+        user: json["user"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "user": user,
+    };
+}
+
+class Product {
+    int? id;
+    String? name;
+    String? category;
+    String? description;
+    String? price;
+    int? quantity;
+    bool? isOutOfStock;
+    String? qrCode;
+    String? image;
+
+    Product({
+        this.id,
+        this.name,
+        this.category,
+        this.description,
+        this.price,
+        this.quantity,
+        this.isOutOfStock,
+        this.qrCode,
+        this.image,
+    });
+
+    factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json["id"],
+        name: json["name"],
+        category: json["category"],
+        description: json["description"],
+        price: json["price"],
+        quantity: json["quantity"],
+        isOutOfStock: json["is_out_of_stock"],
+        qrCode: json["qr_code"],
+        image: json["image"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "category": category,
+        "description": description,
+        "price": price,
+        "quantity": quantity,
+        "is_out_of_stock": isOutOfStock,
+        "qr_code": qrCode,
+        "image": image,
+    };
+}

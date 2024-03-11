@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hypermarket_user/presentation/bottom_nav_screen/view/bottom_nav_screen.dart';
 import 'package:hypermarket_user/presentation/cart_screen/controller/cart_screen_controller.dart';
 import 'package:hypermarket_user/presentation/category_screen/controller/category_screen_controller.dart';
 import 'package:hypermarket_user/presentation/login_screen/controller/login_controller.dart';
@@ -9,6 +8,8 @@ import 'package:hypermarket_user/presentation/registration__screen/controller/re
 import 'package:hypermarket_user/presentation/splash_screen/splash_screen.dart';
 
 import 'package:provider/provider.dart';
+
+import 'presentation/purchase_history_screen/controller/purcharse_history_controller.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProductScreenController()),
         ChangeNotifierProvider(
             create: (context) => ProductDetailsScreenController()),
+        ChangeNotifierProvider(create: (context) => HistoryScreenController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

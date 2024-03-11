@@ -27,7 +27,46 @@ class ProductDetailsScreenServices {
       }
     } catch (e) {
       rethrow;
-      return APIResponse(data: "resData", error: true, errorMessage: '');
+    }
+  }
+
+  // here is the function for post the cart
+  Future<APIResponse> addtoCart({required String id}) async {
+    try {
+      final APIResponse response = await ApiHelper.postData(
+          body: {},
+          endPoint: "/add-to-cart/$id/",
+          header:
+              ApiHelper.getApiHeader(access: await AppUtils.getAccessKey()));
+      if (response.error) {
+        return response;
+      } else {
+        return APIResponse(data: "redData", error: false, errorMessage: '');
+      }
+    } catch (e) {
+      return APIResponse(
+          data: 'res data', error: true, errorMessage: 'failed to fetch data');
+    }
+  }
+
+  //purchase order
+
+  Future<APIResponse> buyProducts(
+      {required int pro_id, required int quantity}) async {
+    try {
+      final APIResponse response = await ApiHelper.postData(
+          body: {"product_id": pro_id, "quantity": quantity},
+          endPoint: "/create-order/",
+          header:
+              ApiHelper.getApiHeader(access: await AppUtils.getAccessKey()));
+      if (response.error) {
+        return response;
+      } else {
+        return APIResponse(data: "redData", error: false, errorMessage: '');
+      }
+    } catch (e) {
+      return APIResponse(
+          data: 'res data', error: true, errorMessage: 'failed to fetch data');
     }
   }
 }

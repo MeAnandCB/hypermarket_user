@@ -193,7 +193,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     upi = !upi;
                     setState(() {});
                   },
-                  child: upi == true
+                  child: upi == false
                       ? Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
@@ -315,7 +315,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     cod = !cod;
                     setState(() {});
                   },
-                  child: cod == true
+                  child: cod == false
                       ? Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),

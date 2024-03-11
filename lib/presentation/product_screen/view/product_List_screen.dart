@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 
 import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
-import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
 import 'package:hypermarket_user/presentation/product_screen/controller/product_screen_controller.dart';
 import 'package:hypermarket_user/presentation/product_screen/view/widgets/custom_product_card.dart';
@@ -128,10 +127,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10),
                       itemBuilder: (context, index) => InkWell(
-                          onTap: () {
-                            print(productProvider.productListnList[index].id
-                                .toString());
-                            Navigator.push(
+                          onTap: () async {
+                            await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProductDetailsScreen(
