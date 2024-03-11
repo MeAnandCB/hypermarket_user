@@ -9,6 +9,7 @@ import 'package:hypermarket_user/presentation/category_screen/controller/categor
 
 import 'package:hypermarket_user/presentation/category_screen/view/widgets/popular_items_widgets.dart';
 import 'package:hypermarket_user/presentation/product_screen/view/product_List_screen.dart';
+import 'package:hypermarket_user/presentation/search_screen/view/search_screen.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -92,20 +93,29 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Search...",
-                      ),
-                      Icon(Icons.search)
-                    ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen(),
+                        ));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Search...",
+                        ),
+                        Icon(Icons.search)
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
