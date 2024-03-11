@@ -58,19 +58,20 @@ class ProductDetailsScreenController extends ChangeNotifier {
   }
 
   Future addtocart({required String id}) async {
-    isLoading = true;
+    isaddtocartloading = true;
     notifyListeners();
     final addtoCart = await ProductDetailsScreenServices().addtoCart(id: id);
 
     if (addtoCart.error != true) {
+      isaddtocartloading = false;
       ProductDetailsResModel productdetailsModel = addtoCart.data;
       productDataList = productdetailsModel.productDetalsData;
-      isLoading = false;
+
       notifyListeners();
     }
 
     print(productDataList);
-
+    notifyListeners();
     return productDataList!;
   }
 
