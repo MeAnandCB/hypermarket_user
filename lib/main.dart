@@ -5,7 +5,8 @@ import 'package:hypermarket_user/presentation/login_screen/controller/login_cont
 import 'package:hypermarket_user/presentation/product_details_screen/controller/product_details_screen_controller.dart';
 import 'package:hypermarket_user/presentation/product_screen/controller/product_screen_controller.dart';
 import 'package:hypermarket_user/presentation/registration__screen/controller/register_screen_controller.dart';
-import 'package:hypermarket_user/presentation/search_screen/controller/search_screen_controller.dart';
+import 'package:hypermarket_user/presentation/category_search_screen/controller/search_screen_controller.dart';
+import 'package:hypermarket_user/presentation/scanner_screen/controller/scanned_product_details_controller.dart';
 import 'package:hypermarket_user/presentation/splash_screen/splash_screen.dart';
 
 import 'package:provider/provider.dart';
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HistoryScreenController()),
         ChangeNotifierProvider(
             create: (context) => SearchScreenScreenController()),
+        ChangeNotifierProvider(
+            create: (context) => scanedDetailsScreenController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

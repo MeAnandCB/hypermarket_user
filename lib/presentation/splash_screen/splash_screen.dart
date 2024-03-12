@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/app_utils/app_utils.dart';
 import 'package:hypermarket_user/presentation/bottom_nav_screen/view/bottom_nav_screen.dart';
 import 'package:hypermarket_user/presentation/login_screen/view/login_screen.dart';
-import 'package:hypermarket_user/presentation/registration__screen/view/registration_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

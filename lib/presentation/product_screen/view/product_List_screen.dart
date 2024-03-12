@@ -132,7 +132,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProductDetailsScreen(
-                                    index: index,
                                     id: productProvider
                                         .productListnList[index].id
                                         .toString(),

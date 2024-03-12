@@ -1,8 +1,9 @@
-import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
+import 'package:hypermarket_user/presentation/scanner_screen/controller/scanned_product_details_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -15,43 +16,40 @@ class ScannerScreen extends StatefulWidget {
 class _ScannerScreenState extends State<ScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
+  String code = '';
   QRViewController? controller;
   bool isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
+  void _onQRViewCreated(QRViewController controller) async {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       if (!isLoading) {
         setState(() {
           isLoading = true;
           result = scanData;
+          code = result?.code ?? "";
+          print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%$code");
         });
-        _navigateToDetailsScreen();
+        await _navigateToDetailsScreen(result: code);
       }
     });
   }
 
-  void _navigateToDetailsScreen() {
-    Timer(Duration(seconds: 2), () {
-      if (mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(
-              id: "",
-              index: 0,
-            ),
+//
+  _navigateToDetailsScreen({required String result}) async {
+    await Provider.of<scanedDetailsScreenController>(context, listen: false)
+        .getProductDetailsScreenList(id: result);
+    if (isLoading) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProductDetailsScreen(
+            id: result,
           ),
-        );
-        isLoading = false;
-        setState(() {});
-      }
-    });
+        ),
+      );
+      isLoading = false; // Move isLoading assignment here
+    }
   }
 
   @override

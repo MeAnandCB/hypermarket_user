@@ -9,11 +9,12 @@ import 'package:hypermarket_user/presentation/product_details_screen/controller/
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen(
-      {super.key, required this.id, required this.index});
+  const ProductDetailsScreen({
+    super.key,
+    required this.id,
+  });
 
   final String id;
-  final int index;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -38,9 +39,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         Provider.of<ProductDetailsScreenController>(context);
 
     Provider.of<ProductDetailsScreenController>(context, listen: false)
-        .totalprice(price: productProvider.productDataList?.price ?? '');
+        .totalprice(price: productProvider.productData?.price ?? '');
 
-    String image = productProvider.productDataList?.image ?? "";
+    String image = productProvider.productData?.image ?? "";
 
     return Scaffold(
       backgroundColor: ColorConstant.primaryGreen,
@@ -133,7 +134,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  productProvider.productDataList?.price ?? "",
+                                  productProvider.productData?.price ?? "",
                                   style: TextStyle(
                                       height: 1.7,
                                       fontSize: 25,
@@ -145,7 +146,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               height: 10,
                             ),
                             Text(
-                              productProvider.productDataList?.name ?? "",
+                              productProvider.productData?.name ?? "",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -153,8 +154,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              productProvider.productDataList?.description ??
-                                  "",
+                              productProvider.productData?.description ?? "",
                               style: TextStyle(
                                 height: 1.7,
                                 fontSize: 14,

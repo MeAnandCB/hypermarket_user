@@ -96,11 +96,11 @@ class _CartScreenState extends State<CartScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProductDetailsScreen(
-                                      id: cartProvider
-                                              .cartitemList[index].product?.id
-                                              .toString() ??
-                                          "",
-                                      index: index),
+                                    id: cartProvider
+                                            .cartitemList[index].product?.id
+                                            .toString() ??
+                                        "",
+                                  ),
                                 ));
                           },
                           child: CustomCartItem(

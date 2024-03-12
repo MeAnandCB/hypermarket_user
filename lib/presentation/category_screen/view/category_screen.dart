@@ -1,15 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hypermarket_user/app_config/app_config.dart';
-
 import 'package:hypermarket_user/core/constants/color.dart';
-
-import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart';
 import 'package:hypermarket_user/presentation/category_screen/controller/category_screen_controller.dart';
-
 import 'package:hypermarket_user/presentation/category_screen/view/widgets/popular_items_widgets.dart';
 import 'package:hypermarket_user/presentation/product_screen/view/product_List_screen.dart';
-import 'package:hypermarket_user/presentation/search_screen/view/search_screen.dart';
+import 'package:hypermarket_user/presentation/category_search_screen/view/search_screen.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -184,24 +180,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ],
                 ),
-                categoryProvider.isCategoryLoading
-                    ? Container(
-                        height: 120,
-                        child: Center(
+                GridView.builder(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: categoryProvider.categoryScreenList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      mainAxisExtent: 160),
+                  itemBuilder: (context, index) => categoryProvider
+                          .isCategoryLoading
+                      ? Center(
                           child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : GridView.builder(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: categoryProvider.categoryScreenList.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            mainAxisExtent: 160),
-                        itemBuilder: (context, index) => InkWell(
+                        )
+                      : InkWell(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -249,7 +243,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             ),
                           ),
                         ),
-                      )
+                )
               ],
             ),
           ),

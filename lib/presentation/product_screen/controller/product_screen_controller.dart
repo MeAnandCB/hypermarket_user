@@ -18,12 +18,9 @@ class ProductScreenController extends ChangeNotifier {
       productListnList = productModel.productData ?? [];
       print("###################################$productListnList");
     }
-
     isProductLoading = false;
     notifyListeners();
-
     print(productListnList.toString());
-
     return productListnList;
   }
 }

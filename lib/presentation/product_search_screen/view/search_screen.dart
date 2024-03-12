@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
 import 'package:hypermarket_user/app_config/app_config.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 import 'package:hypermarket_user/presentation/product_screen/view/product_List_screen.dart';
-import 'package:hypermarket_user/presentation/search_screen/controller/search_screen_controller.dart';
-import 'dart:convert';
+import 'package:hypermarket_user/presentation/category_search_screen/controller/search_screen_controller.dart';
 
 import 'package:provider/provider.dart';
 
-class SearchScreen extends StatefulWidget {
+class ProductSearchScreen extends StatefulWidget {
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  _ProductSearchScreenState createState() => _ProductSearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _ProductSearchScreenState extends State<ProductSearchScreen> {
   TextEditingController searchController = TextEditingController();
 
   @override

@@ -8,7 +8,7 @@ class ProductDetailsScreenController extends ChangeNotifier {
   bool isLoading = true;
   bool isaddtocartloading = false;
   bool ispurchase = false;
-  Data? productDataList;
+  Data? productData;
   double totalProdPrice = 0.0;
 //here to getProductDetailsScreenList
   Future<Data> getProductDetailsScreenList({required String id}) async {
@@ -19,15 +19,15 @@ class ProductDetailsScreenController extends ChangeNotifier {
     print(fetchedData.error);
     if (fetchedData.error != true) {
       ProductDetailsResModel productdetailsModel = fetchedData.data;
-      productDataList = productdetailsModel.productDetalsData;
+      productData = productdetailsModel.productDetalsData;
       isLoading = false;
     }
 
     notifyListeners();
 
-    print(productDataList);
+    print(productData);
 
-    return productDataList!;
+    return productData!;
   }
 
   void quandityadd() {
@@ -51,7 +51,7 @@ class ProductDetailsScreenController extends ChangeNotifier {
   }
 
   totalprice({required String price}) {
-    double price = double.parse(productDataList?.price ?? "0.00");
+    double price = double.parse(productData?.price ?? "0.00");
 
     double totalPrice = price * value;
     totalProdPrice = totalPrice;
@@ -65,14 +65,14 @@ class ProductDetailsScreenController extends ChangeNotifier {
     if (addtoCart.error != true) {
       isaddtocartloading = false;
       ProductDetailsResModel productdetailsModel = addtoCart.data;
-      productDataList = productdetailsModel.productDetalsData;
+      productData = productdetailsModel.productDetalsData;
 
       notifyListeners();
     }
 
-    print(productDataList);
+    print(productData);
     notifyListeners();
-    return productDataList!;
+    return productData!;
   }
 
   Future purchase({required int pro_id, required int quantity}) async {
@@ -87,8 +87,8 @@ class ProductDetailsScreenController extends ChangeNotifier {
       notifyListeners();
     }
 
-    print(productDataList);
+    print(productData);
     ispurchase = false;
-    return productDataList!;
+    return productData!;
   }
 }
