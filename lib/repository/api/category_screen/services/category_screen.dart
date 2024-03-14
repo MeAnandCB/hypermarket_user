@@ -1,5 +1,6 @@
 import 'package:hypermarket_user/core/app_utils/app_utils.dart';
 import 'package:hypermarket_user/repository/api/category_screen/model/category_screen_model.dart';
+import 'package:hypermarket_user/repository/api/category_screen/model/favorate_screen_model.dart';
 import 'package:hypermarket_user/repository/helper/api_response.dart';
 
 import '../../../helper/api_helper.dart';
@@ -20,6 +21,25 @@ class CategoryScreenServices {
         CategoryListResModel resData =
             CategoryListResModel.fromJson(response.data);
         print("***************************************8$resData");
+        return APIResponse(data: resData, error: false, errorMessage: '');
+      }
+    } catch (e) {
+      return APIResponse(data: "resData", error: true, errorMessage: '');
+    }
+  }
+
+  Future<APIResponse> getFavorateDetials() async {
+    try {
+      final APIResponse response = await ApiHelper.getData(
+          endPoint: "/product/carousel/",
+          header:
+              ApiHelper.getApiHeader(access: await AppUtils.getAccessKey()));
+      if (response.error) {
+        return response;
+      } else {
+        FavorateScreenResModel resData =
+            FavorateScreenResModel.fromJson(response.data);
+
         return APIResponse(data: resData, error: false, errorMessage: '');
       }
     } catch (e) {

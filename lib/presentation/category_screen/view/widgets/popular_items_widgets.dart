@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hypermarket_user/app_config/app_config.dart';
 import 'package:hypermarket_user/core/constants/color.dart';
 
 class PopularItemcard extends StatelessWidget {
   final int index;
+  final String qty;
+  final String price;
+  final String image;
+
   const PopularItemcard({
     super.key,
     required this.index,
+    required this.qty,
+    required this.price,
+    required this.image,
   });
 
   @override
@@ -32,14 +41,14 @@ class PopularItemcard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "qwerty",
+                qty,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
-                "Best Price",
+                price,
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               SizedBox(
@@ -51,7 +60,7 @@ class PopularItemcard extends StatelessWidget {
               ),
             ],
           ),
-          Image.asset("assets/oni.png")
+          Container(child: Image.network(AppConfig.mediaUrl + image))
         ],
       ),
     );

@@ -21,6 +21,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await Provider.of<CategoryScreenController>(context, listen: false)
           .getCategoryList();
+      await Provider.of<CategoryScreenController>(context, listen: false)
+          .getFavorateList();
     });
 
     super.initState();
@@ -29,6 +31,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryScreenController>(context);
+    final favorateProvider = Provider.of<CategoryScreenController>(context);
 
     return SingleChildScrollView(
       child: Column(
@@ -135,36 +138,49 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SizedBox(
             height: 15,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "All your favorate",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          favorateProvider.favorateList.length > 0
+              ? SizedBox()
+              : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "All your favorate",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
           SizedBox(
             height: 15,
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            height: 120,
-            child: Center(
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => PopularItemcard(
-                        index: index,
-                      ),
-                  separatorBuilder: (context, index) => SizedBox(
-                        width: 10,
-                      ),
-                  itemCount: 3),
-            ),
-          ),
+          favorateProvider.favorateList.length > 0
+              ? SizedBox()
+              : Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  height: 120,
+                  child: Center(
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => PopularItemcard(
+                              image:
+                                  favorateProvider.favorateList[index].image ??
+                                      "",
+                              qty: favorateProvider.favorateList[index].quantity
+                                  .toString(),
+                              price:
+                                  favorateProvider.favorateList[index].price ??
+                                      "",
+                              index: index,
+                            ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              width: 10,
+                            ),
+                        itemCount: favorateProvider.favorateList.length),
+                  ),
+                ),
           SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
