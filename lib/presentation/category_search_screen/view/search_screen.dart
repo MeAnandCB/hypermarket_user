@@ -15,6 +15,12 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
 
   @override
+  void dispose() {
+    searchController.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final searchdata = Provider.of<SearchScreenScreenController>(context);
 
@@ -67,33 +73,39 @@ class _SearchScreenState extends State<SearchScreen> {
                 itemBuilder: (context, index) {
                   String searchImage = searchdata.searchData[index].image ?? "";
                   print(searchdata.searchData[index].name);
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductListScreen(
-                            produtid:
-                                searchdata.searchData[index].id.toString(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey.shade300)),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(AppConfig.mediaUrl + searchImage),
-                        ),
-                        title: Text(searchdata.searchData[index].name ?? ""),
+                  return searchdata.isSearchLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductListScreen(
+                                  produtid: searchdata.searchData[index].id
+                                      .toString(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border:
+                                    Border.all(color: Colors.grey.shade300)),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    AppConfig.mediaUrl + searchImage),
+                              ),
+                              title:
+                                  Text(searchdata.searchData[index].name ?? ""),
 
-                        // You can display more information from the search results here
-                      ),
-                    ),
-                  );
+                              // You can display more information from the search results here
+                            ),
+                          ),
+                        );
                 },
                 separatorBuilder: (context, index) => SizedBox(
                   height: 10,

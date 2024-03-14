@@ -14,12 +14,12 @@ class ProductScreenController extends ChangeNotifier {
     final fetchedData = await ProductScreenServices().getProductDetials(id: id);
     if (fetchedData.error != true) {
       ProductScreenModel productModel = fetchedData.data;
-      print("###################################$productModel");
       productListnList = productModel.productData ?? [];
-      print("###################################$productListnList");
     }
+
     isProductLoading = false;
     notifyListeners();
+
     print(productListnList.toString());
     return productListnList;
   }

@@ -30,4 +30,21 @@ class CartProductListScreenServices {
   //here is the code for fetch the delete the cart list
 
   // remove-from-cart/<int:product_id>/
+  Future<APIResponse> deleteCart({required String id}) async {
+    try {
+      final APIResponse response = await ApiHelper.postData(
+          body: {},
+          endPoint: "/remove-from-cart/$id/",
+          header:
+              ApiHelper.getApiHeader(access: await AppUtils.getAccessKey()));
+      if (response.error) {
+        return response;
+      } else {
+        return APIResponse(data: "redData", error: false, errorMessage: '');
+      }
+    } catch (e) {
+      return APIResponse(
+          data: 'res data', error: true, errorMessage: 'failed to fetch data');
+    }
+  }
 }

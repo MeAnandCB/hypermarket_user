@@ -1,94 +1,76 @@
 import 'package:flutter/material.dart';
-
 import 'package:hypermarket_user/repository/api/product_details/model/product_details_screen.dart';
-import 'package:hypermarket_user/repository/api/product_details/sevices/service.dart';
+import 'package:hypermarket_user/repository/api/product_details/services/service.dart';
 
 class ProductDetailsScreenController extends ChangeNotifier {
-  int value = 1;
-  bool isLoading = true;
+  int quantity = 1;
+  bool getProductLoading = true;
   bool isaddtocartloading = false;
   bool ispurchase = false;
   Data? productData;
   double totalProdPrice = 0.0;
-//here to getProductDetailsScreenList
+
   Future<Data> getProductDetailsScreenList({required String id}) async {
-    isLoading = true;
+    getProductLoading = true;
     notifyListeners();
     final fetchedData =
         await ProductDetailsScreenServices().getProductDetialsScreen(id: id);
     print(fetchedData.error);
     if (fetchedData.error != true) {
-      ProductDetailsResModel productdetailsModel = fetchedData.data;
+      ProductDetailsResModel productdetailsModel = await fetchedData.data;
       productData = productdetailsModel.productDetalsData;
-      isLoading = false;
     }
-
+    getProductLoading = false;
     notifyListeners();
-
     print(productData);
-
     return productData!;
   }
 
-  void quandityadd() {
-    value = value + 1;
+  void incrementQuantity() {
+    quantity++;
     notifyListeners();
   }
 
-  void quandityRemove() {
-    if (value == 1) {
-      value = value;
-    } else {
-      value = value - 1;
-    }
-
-    notifyListeners();
-  }
-
-  reset() {
-    value = 1;
-    notifyListeners();
-  }
-
-  totalprice({required String price}) {
-    double price = double.parse(productData?.price ?? "0.00");
-
-    double totalPrice = price * value;
-    totalProdPrice = totalPrice;
-  }
-
-  Future addtocart({required String id}) async {
-    isaddtocartloading = true;
-    notifyListeners();
-    final addtoCart = await ProductDetailsScreenServices().addtoCart(id: id);
-
-    if (addtoCart.error != true) {
-      isaddtocartloading = false;
-      ProductDetailsResModel productdetailsModel = addtoCart.data;
-      productData = productdetailsModel.productDetalsData;
-
+  void decrementQuantity() {
+    if (quantity > 1) {
+      quantity--;
       notifyListeners();
     }
+  }
 
-    print(productData);
+  resetQuantity() {
+    quantity = 1;
     notifyListeners();
+  }
+
+  calculateTotalPrice({required String prices}) {
+    double price = double.parse(prices);
+    double totalPrice = price * quantity;
+    totalProdPrice = totalPrice;
+    notifyListeners();
+  }
+
+  Future<Data> addtocart({required String id}) async {
+    isaddtocartloading = true;
+    notifyListeners();
+    await ProductDetailsScreenServices().addtoCart(id: id);
+    isaddtocartloading = false;
+    notifyListeners();
+    print(productData);
     return productData!;
   }
 
-  Future purchase({required int pro_id, required int quantity}) async {
+  Future<Data> purchase({required int pro_id, required int quantity}) async {
     ispurchase = true;
     notifyListeners();
     final purchase = await ProductDetailsScreenServices()
         .buyProducts(pro_id: pro_id, quantity: quantity);
-    notifyListeners();
     if (purchase.error != true) {
-      ispurchase = false;
       print("order placed successfully");
-      notifyListeners();
     }
-
-    print(productData);
     ispurchase = false;
+    notifyListeners();
+    print(productData);
     return productData!;
   }
 }

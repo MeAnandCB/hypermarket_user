@@ -46,54 +46,88 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
             )
           : ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey)),
-                    child: ListTile(
-                      title: Text(
-                        history.purchaseHistory[index].product ?? "",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "total Amount : ${history.purchaseHistory[index].totalAmount}",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                  "Qty :  ${history.purchaseHistory[index].quantity}"),
-                              SizedBox(
-                                width: 10,
+              itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Receipt'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    'Product: ${history.purchaseHistory[index].product ?? ""}'),
+                                Text(
+                                    'Quantity: ${history.purchaseHistory[index].quantity}'),
+                                Text(
+                                    'Total Price: ${history.purchaseHistory[index].totalAmount}'),
+                                Text(
+                                    'Date: ${_formatDate("${history.purchaseHistory[index].orderDate}")}'),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Close'),
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.date_range,
-                                    size: 18,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Date: ${_formatDate("${history.purchaseHistory[index].orderDate}")}",
-                                  ),
-                                ],
-                              )
                             ],
-                          )
-                        ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey)),
+                      child: ListTile(
+                        title: Text(
+                          history.purchaseHistory[index].product ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "total Amount : ${history.purchaseHistory[index].totalAmount}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    "Qty :  ${history.purchaseHistory[index].quantity}"),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.date_range,
+                                      size: 18,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "Date: ${_formatDate("${history.purchaseHistory[index].orderDate}")}",
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

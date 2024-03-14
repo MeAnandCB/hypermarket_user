@@ -14,7 +14,6 @@ class CartScreenController extends ChangeNotifier {
     if (fetchedData.error != true) {
       GetCartItemsResModel cartListModel = fetchedData.data;
       cartitemList = cartListModel.data ?? [];
-      print("###################################$cartitemList");
     }
 
     cartitemListLoading = false;
@@ -25,22 +24,22 @@ class CartScreenController extends ChangeNotifier {
     return cartitemList;
   }
 
-  int cartValue = 1;
-
-  void quandityadd() {
-    cartValue = cartValue + 1;
+  Future deleteCartItem({required String id}) async {
+    cartitemListLoading = true;
     notifyListeners();
-  }
 
-  void quandityRemove() {
-    if (cartValue == 1) {
-      cartValue = cartValue;
-    } else {
-      cartValue = cartValue - 1;
+    try {
+      final deleteData =
+          await CartProductListScreenServices().deleteCart(id: id);
+      if (deleteData.error != true) {
+        print(deleteData.error);
+        await getCartItems();
+      }
+
+      cartitemListLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
-
-    notifyListeners();
   }
-
-//this is the function for delete the cart items
 }

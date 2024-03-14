@@ -180,22 +180,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ],
                 ),
-                GridView.builder(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: categoryProvider.categoryScreenList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                      mainAxisExtent: 160),
-                  itemBuilder: (context, index) => categoryProvider
-                          .isCategoryLoading
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : InkWell(
+                categoryProvider.isCategoryLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : GridView.builder(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: categoryProvider.categoryScreenList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            mainAxisExtent: 160),
+                        itemBuilder: (context, index) => InkWell(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -243,7 +242,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             ),
                           ),
                         ),
-                )
+                      )
               ],
             ),
           ),

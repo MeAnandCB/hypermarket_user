@@ -111,12 +111,12 @@ class ApiHelper {
           print('post resBody');
           print(resBody);
           if (res.statusCode == 200) {
-            if (resBody['message'] != null) {
-              AppUtils.oneTimeSnackBar(
-                resBody['message'] ?? "Success",
-                context: AppConfigController.navigatorState.currentContext!,
-              );
-            }
+            // if (resBody['message'] != null) {
+            //   AppUtils.oneTimeSnackBar(
+            //     resBody['message'] ?? "Success",
+            //     context: AppConfigController.navigatorState.currentContext!,
+            //   );
+            // }
             return APIResponse(data: resBody, error: false, errorMessage: '');
           } else {
             AppUtils.oneTimeSnackBar(

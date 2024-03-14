@@ -5,6 +5,7 @@ import 'package:hypermarket_user/presentation/cart_screen/view/cart_screen.dart'
 import 'package:hypermarket_user/presentation/product_details_screen/view/product_details_screen.dart';
 import 'package:hypermarket_user/presentation/product_screen/controller/product_screen_controller.dart';
 import 'package:hypermarket_user/presentation/product_screen/view/widgets/custom_product_card.dart';
+import 'package:hypermarket_user/presentation/product_search_screen/view/product_search_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductListScreen extends StatefulWidget {
@@ -82,25 +83,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Search...",
-                  ),
-                  Icon(Icons.search)
-                ],
-              ),
-            ),
-          ),
           SizedBox(
             height: 20,
           ),
@@ -119,38 +101,40 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50),
 
-                  child: GridView.builder(
-                      itemCount: productProvider.productListnList.length,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10),
-                      itemBuilder: (context, index) => InkWell(
-                          onTap: () async {
-                            await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductDetailsScreen(
-                                    id: productProvider
-                                        .productListnList[index].id
-                                        .toString(),
-                                  ),
-                                ));
-                          },
-                          child: productProvider.isProductLoading
-                              ? CircularProgressIndicator()
-                              : CustomItemCard(
-                                  image: productProvider
-                                          .productListnList[index].image ??
-                                      '',
-                                  name: productProvider
-                                          .productListnList[index].name ??
-                                      "",
-                                  price: productProvider
-                                      .productListnList[index].price
-                                      .toString(),
-                                ))),
+                  child: productProvider.isProductLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : GridView.builder(
+                          itemCount: productProvider.productListnList.length,
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10),
+                          itemBuilder: (context, index) => InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailsScreen(
+                                        id: productProvider
+                                            .productListnList[index].id
+                                            .toString(),
+                                      ),
+                                    ));
+                              },
+                              child: CustomItemCard(
+                                image: productProvider
+                                        .productListnList[index].image ??
+                                    '',
+                                name: productProvider
+                                        .productListnList[index].name ??
+                                    "",
+                                price: productProvider
+                                    .productListnList[index].price
+                                    .toString(),
+                              ))),
                   // child: Column(
                   //   children: [
                   //     CustomMovieCards(

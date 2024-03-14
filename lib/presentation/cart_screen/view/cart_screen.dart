@@ -23,12 +23,6 @@ class _CartScreenState extends State<CartScreen> {
     super.initState();
   }
 
-  deletecartitem(inx) {
-    List cart = Provider.of<CartScreenController>(context).cartitemList;
-    cart.removeAt(inx);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartScreenController>(context);
@@ -88,38 +82,39 @@ class _CartScreenState extends State<CartScreen> {
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: const EdgeInsets.only(top: 50),
-                child: ListView.separated(
-                    itemCount: cartProvider.cartitemList.length,
-                    itemBuilder: (context, index) => InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductDetailsScreen(
-                                    id: cartProvider
-                                            .cartitemList[index].product?.id
-                                            .toString() ??
-                                        "",
-                                  ),
-                                ));
-                          },
-                          child: CustomCartItem(
-                            image: cartProvider
-                                    .cartitemList[index].product?.image ??
-                                '',
-                            price: cartProvider
-                                    .cartitemList[index].product?.price ??
-                                '',
-                            category: cartProvider
-                                    .cartitemList[index].product?.category ??
-                                '',
-                            name: cartProvider
-                                    .cartitemList[index].product?.name ??
-                                '',
-                            delete: () {},
-                          ),
-                        ),
-                    separatorBuilder: (context, index) => Divider()),
+                child: cartProvider.cartitemListLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.separated(
+                        itemCount: cartProvider.cartitemList.length,
+                        itemBuilder: (context, index) => CustomCartItem(
+                              image: cartProvider
+                                      .cartitemList[index].product?.image ??
+                                  '',
+                              price: cartProvider
+                                      .cartitemList[index].product?.price ??
+                                  '',
+                              category: cartProvider
+                                      .cartitemList[index].product?.category ??
+                                  '',
+                              name: cartProvider
+                                      .cartitemList[index].product?.name ??
+                                  '',
+                              inx: index,
+                              delete: () async {
+                                await Provider.of<CartScreenController>(context,
+                                        listen: false)
+                                    .deleteCartItem(
+                                        id: cartProvider
+                                                .cartitemList[index].product?.id
+                                                .toString() ??
+                                            "");
+                              },
+                            ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 10,
+                            )),
               ),
             ),
           ],

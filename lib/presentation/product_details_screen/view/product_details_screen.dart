@@ -23,7 +23,6 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
-    print(widget.id);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await Provider.of<ProductDetailsScreenController>(context, listen: false)
           .getProductDetailsScreenList(id: widget.id);
@@ -37,9 +36,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     print("this is the id passing the product screen : ${widget.id}");
     final productProvider =
         Provider.of<ProductDetailsScreenController>(context);
-
     Provider.of<ProductDetailsScreenController>(context, listen: false)
-        .totalprice(price: productProvider.productData?.price ?? '');
+        .calculateTotalPrice(
+            prices: Provider.of<ProductDetailsScreenController>(context)
+                    .productData
+                    ?.price ??
+                '');
 
     String image = productProvider.productData?.image ?? "";
 
@@ -77,22 +79,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           fontSize: 18,
                           color: Colors.white),
                     ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     Navigator.pushReplacement(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //         builder: (context) => CartScreen(),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: CircleAvatar(
-                    //     child: Icon(
-                    //       Icons.shopping_cart,
-                    //       size: 20,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -109,7 +95,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: productProvider.isLoading
+                child: productProvider.getProductLoading
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
@@ -196,13 +182,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         Expanded(
                                           child: InkWell(
                                             onTap: () {
-                                              productProvider.value > 1
+                                              productProvider.quantity > 1
                                                   ? Provider.of<
                                                               ProductDetailsScreenController>(
                                                           context,
                                                           listen: false)
-                                                      .quandityRemove()
-                                                  : productProvider.value;
+                                                      .decrementQuantity()
+                                                  : productProvider.quantity;
                                             },
                                             child: Container(
                                               child: Center(
@@ -218,7 +204,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           child: Container(
                                             child: Center(
                                                 child: Text(productProvider
-                                                    .value
+                                                    .quantity
                                                     .toString())),
                                           ),
                                         ),
@@ -231,7 +217,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               Provider.of<ProductDetailsScreenController>(
                                                       context,
                                                       listen: false)
-                                                  .quandityadd();
+                                                  .incrementQuantity();
                                             },
                                             child: Container(
                                               child: Center(
@@ -249,6 +235,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   Expanded(
                                     child: InkWell(
                                       onTap: () {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: Colors.green,
+                                            content: Text('Product Added'),
+                                          ),
+                                        );
                                         Provider.of<ProductDetailsScreenController>(
                                                 context,
                                                 listen: false)
@@ -272,15 +265,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text("Total amount :  "),
-                                Text(
-                                  Provider.of<ProductDetailsScreenController>(
-                                          context)
-                                      .totalProdPrice
-                                      .toString(),
-                                  style: TextStyle(
-                                      height: 1.7,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
+                                Consumer(
+                                  builder: (context, value, child) => Text(
+                                    Provider.of<ProductDetailsScreenController>(
+                                            context)
+                                        .totalProdPrice
+                                        .toString(),
+                                    style: TextStyle(
+                                        height: 1.7,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 20,
@@ -296,15 +291,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               height: 10,
             ),
             InkWell(
-              onTap: () {
-                Provider.of<ProductDetailsScreenController>(context,
+              onTap: () async {
+                await Provider.of<ProductDetailsScreenController>(context,
                         listen: false)
                     .purchase(
                         pro_id: int.parse(widget.id),
-                        quantity: productProvider.value ?? 0);
-                Provider.of<ProductDetailsScreenController>(context,
+                        quantity: productProvider.quantity);
+                await Provider.of<ProductDetailsScreenController>(context,
                         listen: false)
-                    .reset();
+                    .resetQuantity();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => PaymentPage()),
