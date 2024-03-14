@@ -138,7 +138,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SizedBox(
             height: 15,
           ),
-          favorateProvider.favorateList.length < 0
+          favorateProvider.favorateList.length <= 0
               ? SizedBox()
               : Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -156,7 +156,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           SizedBox(
             height: 15,
           ),
-          favorateProvider.favorateList.length < 0
+          favorateProvider.favorateList.length <= 0
               ? SizedBox()
               : Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),

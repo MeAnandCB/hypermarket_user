@@ -82,39 +82,44 @@ class _CartScreenState extends State<CartScreen> {
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: const EdgeInsets.only(top: 50),
-                child: cartProvider.cartitemListLoading
+                child: cartProvider.cartitemList.isEmpty
                     ? Center(
-                        child: CircularProgressIndicator(),
+                        child: Text("Cart Empty"),
                       )
-                    : ListView.separated(
-                        itemCount: cartProvider.cartitemList.length,
-                        itemBuilder: (context, index) => CustomCartItem(
-                              image: cartProvider
-                                      .cartitemList[index].product?.image ??
-                                  '',
-                              price: cartProvider
-                                      .cartitemList[index].product?.price ??
-                                  '',
-                              category: cartProvider
-                                      .cartitemList[index].product?.category ??
-                                  '',
-                              name: cartProvider
-                                      .cartitemList[index].product?.name ??
-                                  '',
-                              inx: index,
-                              delete: () async {
-                                await Provider.of<CartScreenController>(context,
-                                        listen: false)
-                                    .deleteCartItem(
-                                        id: cartProvider
-                                                .cartitemList[index].product?.id
-                                                .toString() ??
-                                            "");
-                              },
-                            ),
-                        separatorBuilder: (context, index) => SizedBox(
-                              height: 10,
-                            )),
+                    : cartProvider.cartitemListLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ListView.separated(
+                            itemCount: cartProvider.cartitemList.length,
+                            itemBuilder: (context, index) => CustomCartItem(
+                                  image: cartProvider
+                                          .cartitemList[index].product?.image ??
+                                      '',
+                                  price: cartProvider
+                                          .cartitemList[index].product?.price ??
+                                      '',
+                                  category: cartProvider.cartitemList[index]
+                                          .product?.category ??
+                                      '',
+                                  name: cartProvider
+                                          .cartitemList[index].product?.name ??
+                                      '',
+                                  inx: index,
+                                  delete: () async {
+                                    await Provider.of<CartScreenController>(
+                                            context,
+                                            listen: false)
+                                        .deleteCartItem(
+                                            id: cartProvider.cartitemList[index]
+                                                    .product?.id
+                                                    .toString() ??
+                                                "");
+                                  },
+                                ),
+                            separatorBuilder: (context, index) => SizedBox(
+                                  height: 10,
+                                )),
               ),
             ),
           ],
