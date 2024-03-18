@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20),
                 _buildTextField(
                   controller: _usernameController,
-                  hintText: 'Username',
+                  hintText: 'Mobile Number',
                   isPassword: false,
                 ),
                 SizedBox(height: 20),

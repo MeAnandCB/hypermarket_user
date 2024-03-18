@@ -131,6 +131,13 @@ class ApiHelper {
                     resBody['message'].toString() ?? 'Something went wrong!');
           }
         } else {
+          var resBody = json.decode(utf8.decode(res.bodyBytes));
+
+          AppUtils.oneTimeSnackBar(
+            resBody['message']?.toString() ?? 'Something went wrong!',
+            context: AppConfigController.navigatorState.currentContext!,
+            bgColor: Colors.red,
+          );
           // AppUtils.oneTimeSnackBar('Something went wrong!');
           return APIResponse(
               data: res.body,

@@ -9,12 +9,8 @@ import 'package:hypermarket_user/presentation/product_details_screen/controller/
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({
-    super.key,
-    required this.id,
-  });
-
   final String id;
+  const ProductDetailsScreen({super.key, required this.id});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -27,7 +23,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       await Provider.of<ProductDetailsScreenController>(context, listen: false)
           .getProductDetailsScreenList(id: widget.id);
     });
-
     super.initState();
   }
 
@@ -44,7 +39,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 '');
 
     String image = productProvider.productData?.image ?? "";
-
+    int qty = productProvider.productData!.quantity ?? 0;
     return Scaffold(
       backgroundColor: ColorConstant.primaryGreen,
       body: SingleChildScrollView(
@@ -150,19 +145,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             SizedBox(height: 10),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(
-                                  Icons.light,
-                                  color: Colors.purple,
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  "Fast Devivery Available",
-                                  style: TextStyle(
-                                    height: 1.7,
-                                    fontSize: 12,
-                                  ),
+                                qty == 0
+                                    ? Container(
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.red,
+                                        ),
+                                        child: Text(
+                                          "Out of Stock",
+                                          style: TextStyle(color: Colors.white),
+                                        ))
+                                    : Text("$qty Available"),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.light,
+                                      color: Colors.purple,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      "Fast Devivery Available",
+                                      style: TextStyle(
+                                        height: 1.7,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -234,19 +246,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                   Expanded(
                                     child: InkWell(
-                                      onTap: () {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Colors.green,
-                                            content: Text('Product Added'),
-                                          ),
-                                        );
-                                        Provider.of<ProductDetailsScreenController>(
-                                                context,
-                                                listen: false)
-                                            .addtocart(id: widget.id);
-                                      },
+                                      onTap: qty != 0
+                                          ? () {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor: Colors.green,
+                                                  content:
+                                                      Text('Product Added'),
+                                                ),
+                                              );
+                                              Provider.of<ProductDetailsScreenController>(
+                                                      context,
+                                                      listen: false)
+                                                  .addtocart(id: widget.id);
+                                            }
+                                          : () {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor: Colors.red,
+                                                  content: Text('Out of Stock'),
+                                                ),
+                                              );
+                                            },
                                       child: Container(
                                         color: Colors.amber,
                                         child: Center(
@@ -291,20 +314,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               height: 10,
             ),
             InkWell(
-              onTap: () async {
-                await Provider.of<ProductDetailsScreenController>(context,
-                        listen: false)
-                    .purchase(
-                        pro_id: int.parse(widget.id),
-                        quantity: productProvider.quantity);
-                await Provider.of<ProductDetailsScreenController>(context,
-                        listen: false)
-                    .resetQuantity();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PaymentPage()),
-                );
-              },
+              onTap: qty != 0
+                  ? () async {
+                      await Provider.of<ProductDetailsScreenController>(context,
+                              listen: false)
+                          .purchase(
+                              pro_id: int.parse(widget.id),
+                              quantity: productProvider.quantity);
+                      await Provider.of<ProductDetailsScreenController>(context,
+                              listen: false)
+                          .resetQuantity();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PaymentPage()),
+                      );
+                    }
+                  : () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text('Out of Stock'),
+                        ),
+                      );
+                    },
               child: Container(
                 height: 60,
                 color: Colors.amber,

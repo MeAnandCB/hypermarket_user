@@ -110,7 +110,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10),
+                                  crossAxisSpacing: 10,
+                                  mainAxisExtent: 220),
                           itemBuilder: (context, index) => InkWell(
                               onTap: () async {
                                 await Navigator.push(

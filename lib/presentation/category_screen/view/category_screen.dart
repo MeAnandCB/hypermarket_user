@@ -209,7 +209,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             crossAxisCount: 3,
                             crossAxisSpacing: 15,
                             mainAxisSpacing: 15,
-                            mainAxisExtent: 160),
+                            mainAxisExtent: 180),
                         itemBuilder: (context, index) => InkWell(
                           onTap: () {
                             Navigator.push(
